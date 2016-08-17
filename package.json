@@ -1,0 +1,23 @@
+{
+  "name": "learnsoap",
+  "version": "1.0.0",
+  "description": "learn soap",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moloxiao/learnsoap.git"
+  },
+  "keywords": [
+    "node",
+    "soap"
+  ],
+  "author": "molo.xiao@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/moloxiao/learnsoap/issues"
+  },
+  "homepage": "https://github.com/moloxiao/learnsoap#readme"
+}
