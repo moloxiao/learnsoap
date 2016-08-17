@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/moloxiao/learnsoap/issues"
   },
-  "homepage": "https://github.com/moloxiao/learnsoap#readme"
+  "homepage": "https://github.com/moloxiao/learnsoap#readme",
+  "dependencies": {
+    "soap": "^0.16.0"
+  }
 }
