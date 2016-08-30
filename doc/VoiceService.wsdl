@@ -1,0 +1,1089 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions name="VoiceService2" 
+	xmlns:tns="http://www.showclear.cn/VoiceService/"
+	targetNamespace="http://www.showclear.cn/VoiceService/" 
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xmime="http://www.w3.org/2005/05/xmlmime">
+	
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.showclear.cn/VoiceService/" xmlns="http://www.w3.org/2001/XMLSchema">
+		<!-- base  element -->
+			<xsd:element name="VersionResp">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="versionInfo" 		nillable="false" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:complexType name="ConfigEntry">
+				<xsd:sequence>
+					<xsd:element minOccurs="1"  name="key"  			nillable="false" type="string" />
+					<xsd:element minOccurs="1"  name="value"  			nillable="false" type="string" />
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element name="SysConfigLoadResp">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="resultCode" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="entries"			nillable="false" type="tns:ConfigEntry" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="SysConfigSetReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="entries"				nillable="false" type="tns:ConfigEntry" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			
+			<xsd:element name="CommonReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="0" name="sessionId" 		nillable="true" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="CommonResp">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="resultCode" 		nillable="false" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="JsonResp">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="resultCode" 		nillable="false" type="string" />
+						<xsd:element minOccurs="0" name="jsonData"  		nillable="false" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		<!-- 	regType: 0,unreg; 1,reg  -->
+        	<xsd:element name="PushServRegReq">
+        		<xsd:complexType>
+        			<xsd:sequence>
+        				<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+        				<xsd:element minOccurs="1" name="regType"	 		nillable="false" type="int" />
+        			</xsd:sequence>
+        		</xsd:complexType>
+        	</xsd:element>
+		<!-- conn -->
+			<xsd:element name="LoginReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="username" 			nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="password" 			nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="centerNo" 			nillable="false" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="LoginResp">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="resultCode" 		nillable="false" type="string" />
+						<xsd:element minOccurs="0" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="0" name="operateTel" 		nillable="false" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			
+			<xsd:element name="WorkStatusSetReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<!-- 0:offline; 1:online -->
+						<xsd:element minOccurs="1" name="status"  			nillable="false" type="int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ConfigVideoReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="ipaddr" 			nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="portMin"  			nillable="false" type="int" />
+						<xsd:element minOccurs="1" name="portMax"  			nillable="false" type="int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			
+		<!-- call element -->
+			<xsd:element name="CallReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="caller" 			nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="callee" 			nillable="false" type="string" />
+						<xsd:element minOccurs="0" name="isRecord" 			nillable="false" type="int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>		
+			<xsd:element name="CallInTurnsReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="caller" 			nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="callee" 			nillable="false" type="string" />
+						<xsd:element minOccurs="0" name="isRecord" 			nillable="false" type="int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>		
+			<xsd:element name="CallHoldReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="caller" 			nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="callee" 			nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="opType" 			nillable="false" type="int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="CallHangupReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="tel" 				nillable="false" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="CallTransferReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="fromTel" 			nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="toTel" 			nillable="false" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="GroupCallReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="caller" 			nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="tels" 				nillable="false" type="string" />
+						<xsd:element minOccurs="0" name="groupId" 			nillable="false" type="string" />
+						<xsd:element minOccurs="0" name="type" 			    nillable="false" type="int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="GroupCallInturnsReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="caller" 			nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="members"			nillable="false" type="string"  maxOccurs="unbounded"/>
+						<xsd:element minOccurs="0" name="groupId" 			nillable="false" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="GroupCancelReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="groupId" 			nillable="false" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="CallRecordReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="caller" 			nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="callee" 			nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="opType" 			nillable="false" type="int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>		
+			<xsd:element name="CallAnswerReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="callinTel" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="answerTel" 		nillable="false" type="string" />
+						<xsd:element minOccurs="0" name="isRecord" 			nillable="false" type="int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>	
+			<xsd:element name="TelMonitorReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="tels" 				nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="opType" 			nillable="false" type="int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>	
+			<xsd:element name="CallOperateReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="caller" 			nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="callee" 			nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="opType" 			nillable="false" type="int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="TelStQueryReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="tels" 				nillable="false" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="CallinQueryResp">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="resultCode" 		nillable="false" type="string" />
+						<xsd:element minOccurs="0" name="tels" 				nillable="false" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			
+			<xsd:element name="CallinTalkQueryReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="tel" 				nillable="false" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="CallinTalkQueryResp">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="resultCode" 		nillable="false" type="string" />
+						<xsd:element minOccurs="0" name="callinTel" 		nillable="false" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			
+		<!-- meet element -->
+			<xsd:element name="MeetIdReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="meetId"  			nillable="false" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="MeetOperateReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="meetId"  			nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="opType" 			nillable="false" type="int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			
+			<xsd:complexType name="MeetInfo">
+				<xsd:sequence>
+					<xsd:element minOccurs="1" name="meetId"  				nillable="false" type="string" />
+					<xsd:element minOccurs="1" name="meetNo"  				nillable="false" type="string" />
+					<xsd:element minOccurs="1" name="isRecord"  			nillable="false" type="int" />
+					<xsd:element minOccurs="1" name="isVoice"  				nillable="false" type="int" />
+					<xsd:element minOccurs="1" name="isLock"  				nillable="false" type="int" />
+					<xsd:element minOccurs="0" name="members"  				nillable="false" type="tns:MeetMember" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="MeetMember">
+				<xsd:sequence>
+					<xsd:element minOccurs="1" name="tel"  					nillable="false" type="string" />
+					<xsd:element minOccurs="1" name="isSpeak"  				nillable="false" type="int" />
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element name="MeetQueryResp">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="resultCode" 		nillable="false" type="string" />
+						<xsd:element minOccurs="0" name="meetInfos" 		nillable="false" type="tns:MeetInfo" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			
+			<xsd:element name="MeetCreateReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="meetNo"  			nillable="false" type="string" />
+						<xsd:element minOccurs="0" name="isRecord"  		nillable="false" type="int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="MeetCreateResp">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="resultCode" 		nillable="false" type="string" />
+						<xsd:element minOccurs="0" name="meetId"  			nillable="false" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="MemberJoinReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="meetId"  			nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="tel"  				nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="isSpeak" 			nillable="false" type="int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="MemberLeaveReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="meetId"  			nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="tel"  				nillable="false" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="MemberLevelReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="meetId"  			nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="tel"  				nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="level" 			nillable="false" type="int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			
+			<!-- group notify -->
+			<xsd:element name="NotifyRecordOPReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="tel"  				nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="title"  			nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="opType"  			nillable="false" type="string" />
+						<xsd:element minOccurs="0" name="filename"  		nillable="false" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>			
+			<xsd:element name="NotifyRecordOPResp">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="resultCode" 		nillable="false" type="string" />
+						<xsd:element minOccurs="0" name="fileLen"  			nillable="false" type="int" />
+						<xsd:element minOccurs="0" name="filename"  		nillable="false" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>			
+			<xsd:element name="GroupNotifyReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId"			nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="playfiles"         nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="tels"              nillable="false" type="string" />
+						<xsd:element minOccurs="0" name="groupId"           nillable="true" type="string" />
+						<xsd:element minOccurs="0" name="playtimes"         nillable="true" type="int" />
+						<xsd:element minOccurs="0" name="notify_type"       nillable="true" type="string" />
+						<xsd:element minOccurs="0" name="confirm"   		nillable="true" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="GroupNotifyEndReq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="sessionId" 		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="groupId" 			nillable="false" type="string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+							
+			<xsd:complexType name="NotifyResult">
+				<xsd:sequence>
+					<xsd:element minOccurs="1" name="id"                nillable="false" type="int" />
+					<xsd:element minOccurs="1" name="notifyId"          nillable="false" type="string" />
+					<xsd:element minOccurs="1" name="caller"            nillable="false" type="string" />
+					<xsd:element minOccurs="1" name="called"            nillable="false" type="string" />
+					<xsd:element minOccurs="1" name="tmNotify"          nillable="false" type="string" />
+					<xsd:element minOccurs="0" name="tmAnswer"          nillable="false" type="string" />
+					<xsd:element minOccurs="0" name="tmHangup"          nillable="false" type="string" />
+					<xsd:element minOccurs="0" name="tmLen"          	nillable="false" type="int" />
+					<xsd:element minOccurs="0" name="notifyFile"        nillable="false" type="string" />
+					<xsd:element minOccurs="1" name="result"          	nillable="false" type="string" />
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element name="NotifyResultQueryReq">
+        		<xsd:complexType>
+        			<xsd:sequence>
+        				<xsd:element minOccurs="0" name="notifyId"  		nillable="false" type="string" />
+        				<xsd:element minOccurs="0" name="caller"  			nillable="false" type="string" />
+        				<xsd:element minOccurs="0" name="timeMin"  			nillable="false" type="string" />
+        				<xsd:element minOccurs="0" name="timeMax"  			nillable="false" type="string" />
+        				<xsd:element minOccurs="1" name="pageIndex" 		nillable="false" type="int" />
+        				<xsd:element minOccurs="1" name="pageSize" 			nillable="false" type="int" />
+        			</xsd:sequence>
+        		</xsd:complexType>
+        	</xsd:element>
+        	<xsd:element name="NotifyResultQueryResp">
+        		<xsd:complexType>
+        			<xsd:sequence>
+        				<xsd:element minOccurs="1" name="resultCode"  		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="total"  			nillable="false" type="int" />
+						<xsd:element minOccurs="0" name="infoArr"	 		nillable="false" type="tns:NotifyResult" maxOccurs="unbounded"/>
+        			</xsd:sequence>
+        		</xsd:complexType>
+        	</xsd:element>  
+			
+			<!-- Callin Missed -->
+        	<xsd:complexType name="CallinMissed">
+				<xsd:sequence>
+					<xsd:element minOccurs="1" name="id"                nillable="false" type="int" />
+					<xsd:element minOccurs="1" name="tel"             	nillable="false" type="string" />
+					<xsd:element minOccurs="1" name="tmCall"            nillable="false" type="string" />
+					<xsd:element minOccurs="1" name="tmHang"            nillable="true" type="string" />
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element name="CallinMissedQueryReq">
+        		<xsd:complexType>
+        			<xsd:sequence>
+        				<xsd:element minOccurs="0" name="timeMin"  			nillable="false" type="string" />
+        				<xsd:element minOccurs="0" name="timeMax"  			nillable="false" type="string" />
+        				<xsd:element minOccurs="1" name="pageIndex" 		nillable="false" type="int" />
+        				<xsd:element minOccurs="1" name="pageSize" 			nillable="false" type="int" />
+        			</xsd:sequence>
+        		</xsd:complexType>
+        	</xsd:element>
+        	<xsd:element name="CallinMissedQueryResp">
+        		<xsd:complexType>
+        			<xsd:sequence>
+        				<xsd:element minOccurs="1" name="resultCode"  		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="total"  			nillable="false" type="int" />
+						<xsd:element minOccurs="0" name="infoArr"	 		nillable="false" type="tns:CallinMissed" maxOccurs="unbounded"/>
+        			</xsd:sequence>
+        		</xsd:complexType>
+        	</xsd:element>  
+        	
+        	<!-- call out -->
+        	<xsd:complexType name="CalloutRecord">
+				<xsd:sequence>
+					<xsd:element minOccurs="1" name="id"                nillable="false" type="int" />
+					<xsd:element minOccurs="1" name="caller"           	nillable="false" type="string" />
+					<xsd:element minOccurs="1" name="called"           	nillable="false" type="string" />
+					<xsd:element minOccurs="1" name="tmCall"            nillable="false" type="string" />
+					<xsd:element minOccurs="1" name="result"        	nillable="false" type="string" />
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element name="CalloutRecordQueryReq">
+        		<xsd:complexType>
+        			<xsd:sequence>
+        				<xsd:element minOccurs="0" name="caller"  			nillable="false" type="string" />
+        				<xsd:element minOccurs="0" name="timeMin"  			nillable="false" type="string" />
+        				<xsd:element minOccurs="0" name="timeMax"  			nillable="false" type="string" />
+        				<xsd:element minOccurs="1" name="pageIndex" 		nillable="false" type="int" />
+        				<xsd:element minOccurs="1" name="pageSize" 			nillable="false" type="int" />
+        			</xsd:sequence>
+        		</xsd:complexType>
+        	</xsd:element>
+        	<xsd:element name="CalloutRecordQueryResp">
+        		<xsd:complexType>
+        			<xsd:sequence>
+        				<xsd:element minOccurs="1" name="resultCode"  		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="total"  			nillable="false" type="int" />
+						<xsd:element minOccurs="0" name="infoArr"	 		nillable="false" type="tns:CalloutRecord" maxOccurs="unbounded"/>
+        			</xsd:sequence>
+        		</xsd:complexType>
+        	</xsd:element>  
+        	
+        	<!-- call record sp -->
+			<xsd:complexType name="CallplatRecord">
+				<xsd:sequence>
+					<xsd:element minOccurs="1" name="id"                nillable="false" type="int" />
+					<xsd:element minOccurs="1" name="caller"           	nillable="false" type="string" />
+					<xsd:element minOccurs="1" name="called"           	nillable="false" type="string" />
+					<xsd:element minOccurs="1" name="tmCall"            nillable="false" type="string" />
+					<xsd:element minOccurs="0" name="tmAnswer"          nillable="false" type="string" />
+					<xsd:element minOccurs="0" name="tmHangup"          nillable="false" type="string" />
+					<xsd:element minOccurs="0" name="tmLen"          	nillable="false" type="int" />
+					<xsd:element minOccurs="0" name="result"        	nillable="false" type="string" />
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element name="CallplatRecordQueryReq">
+        		<xsd:complexType>
+        			<xsd:sequence>
+        				<xsd:element minOccurs="0" name="caller"  			nillable="false" type="string" />
+        				<xsd:element minOccurs="0" name="timeMin"  			nillable="false" type="string" />
+        				<xsd:element minOccurs="0" name="timeMax"  			nillable="false" type="string" />
+        				<xsd:element minOccurs="1" name="pageIndex" 		nillable="false" type="int" />
+        				<xsd:element minOccurs="1" name="pageSize" 			nillable="false" type="int" />
+        			</xsd:sequence>
+        		</xsd:complexType>
+        	</xsd:element>
+        	<xsd:element name="CallplatRecordQueryResp">
+        		<xsd:complexType>
+        			<xsd:sequence>
+        				<xsd:element minOccurs="1" name="resultCode"  		nillable="false" type="string" />
+						<xsd:element minOccurs="1" name="total"  			nillable="false" type="int" />
+						<xsd:element minOccurs="0" name="infoArr"	 		nillable="false" type="tns:CallplatRecord" maxOccurs="unbounded"/>
+        			</xsd:sequence>
+        		</xsd:complexType>
+        	</xsd:element>  
+			
+		</xsd:schema>
+	</wsdl:types>
+	
+	<wsdl:message name="VersionResponse">
+		<wsdl:part element="tns:VersionResp" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="SysConfigLoadResponse">
+		<wsdl:part element="tns:SysConfigLoadResp" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="SysConfigSetRequest">
+		<wsdl:part element="tns:SysConfigSetReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="CommonRequest" >
+		<wsdl:part element="tns:CommonReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="CommonResponse">
+		<wsdl:part element="tns:CommonResp" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="JsonResponse">
+		<wsdl:part element="tns:JsonResp" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="PushServRegRequest">
+		<wsdl:part element="tns:PushServRegReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="LoginRequest">
+		<wsdl:part element="tns:LoginReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="LoginResponse">
+		<wsdl:part element="tns:LoginResp" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="WorkStatusSetRequest">
+		<wsdl:part element="tns:WorkStatusSetReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="ConfigVideoRequest">
+		<wsdl:part element="tns:ConfigVideoReq" name="parameters" />
+	</wsdl:message>
+	<!-- call message -->
+	<wsdl:message name="CallRequest">
+		<wsdl:part element="tns:CallReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="CallInTurnsRequest">
+		<wsdl:part element="tns:CallInTurnsReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="CallHoldRequest">
+		<wsdl:part element="tns:CallHoldReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="CallHangupRequest">
+		<wsdl:part element="tns:CallHangupReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="CallTransferRequest">
+		<wsdl:part element="tns:CallTransferReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="GroupCallRequest">
+		<wsdl:part element="tns:GroupCallReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="GroupCallInturnsRequest">
+		<wsdl:part element="tns:GroupCallInturnsReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="GroupCancelRequest">
+		<wsdl:part element="tns:GroupCancelReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="CallRecordRequest">
+		<wsdl:part element="tns:CallRecordReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="CallAnswerRequest">
+		<wsdl:part element="tns:CallAnswerReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="TelMonitorRequest">
+		<wsdl:part element="tns:TelMonitorReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="CallOperateRequest">
+		<wsdl:part element="tns:CallOperateReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="TelStQueryRequest">
+		<wsdl:part element="tns:TelStQueryReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="CallinQueryRespnse">
+		<wsdl:part element="tns:CallinQueryResp" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="CallinTalkQueryRequest">
+		<wsdl:part element="tns:CallinTalkQueryReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="CallinTalkQueryRespnse">
+		<wsdl:part element="tns:CallinTalkQueryResp" name="parameters" />
+	</wsdl:message>
+	
+	<!-- meet message -->
+	<wsdl:message name="MeetIdRequest">
+		<wsdl:part element="tns:MeetIdReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="MeetOperateRequest">
+		<wsdl:part element="tns:MeetOperateReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="MeetQueryResponse">
+		<wsdl:part element="tns:MeetQueryResp" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="MeetCreateRequest">
+		<wsdl:part element="tns:MeetCreateReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="MeetCreateResponse">
+		<wsdl:part element="tns:MeetCreateResp" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="MemberJoinRequest">
+		<wsdl:part element="tns:MemberJoinReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="MemberLeaveRequest">
+		<wsdl:part element="tns:MemberLeaveReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="MemberLevelRequest">
+		<wsdl:part element="tns:MemberLevelReq" name="parameters" />
+	</wsdl:message>
+	
+	<!-- group notify -->
+	<wsdl:message name="NotifyRecordOPRequest">
+		<wsdl:part element="tns:NotifyRecordOPReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="NotifyRecordOPResponse">
+		<wsdl:part element="tns:NotifyRecordOPResp" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="GroupNotifyRequest">
+		<wsdl:part element="tns:GroupNotifyReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="GroupNotifyEndRequest">
+		<wsdl:part element="tns:GroupNotifyEndReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="NotifyResultQueryRequest">
+		<wsdl:part element="tns:NotifyResultQueryReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="NotifyResultQueryResponse">
+		<wsdl:part element="tns:NotifyResultQueryResp" name="parameters" />
+	</wsdl:message>
+	
+	<!-- callrecord -->
+	<wsdl:message name="CallinMissedQueryRequest">
+		<wsdl:part element="tns:CallinMissedQueryReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="CallinMissedQueryResponse">
+		<wsdl:part element="tns:CallinMissedQueryResp" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="CalloutRecordQueryRequest">
+		<wsdl:part element="tns:CalloutRecordQueryReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="CalloutRecordQueryResponse">
+		<wsdl:part element="tns:CalloutRecordQueryResp" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="CallplatRecordQueryRequest">
+		<wsdl:part element="tns:CallplatRecordQueryReq" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="CallplatRecordQueryResponse">
+		<wsdl:part element="tns:CallplatRecordQueryResp" name="parameters" />
+	</wsdl:message>
+	
+	<wsdl:portType name="VoiceService">
+		<wsdl:operation name="Version" >
+			<wsdl:input message="tns:CommonRequest" name="request"/>
+			<wsdl:output message="tns:VersionResponse" name="response"/>
+		</wsdl:operation>
+		<wsdl:operation name="SysConfigLoad" >
+			<wsdl:input message="tns:CommonRequest" />
+			<wsdl:output message="tns:SysConfigLoadResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="SysConfigSet" >
+			<wsdl:input message="tns:SysConfigSetRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		
+		<wsdl:operation name="PushServReg">
+			<wsdl:input message="tns:PushServRegRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="PushServQuery">
+			<wsdl:input message="tns:CommonRequest" />
+			<wsdl:output message="tns:JsonResponse" />
+		</wsdl:operation>
+		
+		<wsdl:operation name="Login">
+			<wsdl:input message="tns:LoginRequest" />
+			<wsdl:output message="tns:LoginResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="Logout">
+			<wsdl:input message="tns:CommonRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="Heartbeat">
+			<wsdl:input message="tns:CommonRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="WorkStatusSet">
+			<wsdl:input message="tns:WorkStatusSetRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="ConfigVideo">
+			<wsdl:input message="tns:ConfigVideoRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<!-- call operation -->
+		<wsdl:operation name="Call">
+			<wsdl:input message="tns:CallRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="CallInTurns">
+			<wsdl:input message="tns:CallInTurnsRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="CallHold">
+			<wsdl:input message="tns:CallHoldRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="CallHangup">
+			<wsdl:input message="tns:CallHangupRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="CallTransfer">
+			<wsdl:input message="tns:CallTransferRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="GroupCall">
+			<wsdl:input message="tns:GroupCallRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="GroupCallInturns">
+			<wsdl:input message="tns:GroupCallInturnsRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="GroupCancel">
+			<wsdl:input message="tns:GroupCancelRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="CallRecord">
+			<wsdl:input message="tns:CallRecordRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="CallAnswer">
+			<wsdl:input message="tns:CallAnswerRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="TelMonitor">
+			<wsdl:input message="tns:TelMonitorRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="CallOperate">
+			<wsdl:input message="tns:CallOperateRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="TelStQuery">
+			<wsdl:input message="tns:TelStQueryRequest" />
+			<wsdl:output message="tns:JsonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="CallinQuery">
+			<wsdl:input message="tns:CommonRequest" />
+			<wsdl:output message="tns:CallinQueryRespnse" />
+		</wsdl:operation>
+		<wsdl:operation name="CallinXDQuery">
+			<wsdl:input message="tns:CommonRequest" />
+			<wsdl:output message="tns:CallinQueryRespnse" />
+		</wsdl:operation>
+		<wsdl:operation name="CallinTalkQuery">
+			<wsdl:input message="tns:CallinTalkQueryRequest" />
+			<wsdl:output message="tns:CallinTalkQueryRespnse" />
+		</wsdl:operation>
+		
+		<!-- call operation -->
+		<wsdl:operation name="MeetQuery">
+			<wsdl:input message="tns:CommonRequest" />
+			<wsdl:output message="tns:MeetQueryResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="MeetCreate">
+			<wsdl:input message="tns:MeetCreateRequest" />
+			<wsdl:output message="tns:MeetCreateResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="MeetDelete">
+			<wsdl:input message="tns:MeetIdRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="MeetEnd">
+			<wsdl:input message="tns:MeetIdRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="MeetLock">
+			<wsdl:input message="tns:MeetOperateRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="MeetVoice">
+			<wsdl:input message="tns:MeetOperateRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="MeetRecord">
+			<wsdl:input message="tns:MeetOperateRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="MemberJoin">
+			<wsdl:input message="tns:MemberJoinRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="MemberLeave">
+			<wsdl:input message="tns:MemberLeaveRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="MemberLevel">
+			<wsdl:input message="tns:MemberLevelRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		
+		<wsdl:operation name="NotifyRecordOP" > 
+			<wsdl:input message="tns:NotifyRecordOPRequest" />
+			<wsdl:output message="tns:NotifyRecordOPResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="GroupNotify">
+			<wsdl:input message="tns:GroupNotifyRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="GroupNotifyEnd">
+			<wsdl:input message="tns:GroupNotifyEndRequest" />
+			<wsdl:output message="tns:CommonResponse" />
+		</wsdl:operation>
+		
+		<wsdl:operation name="NotifyResultQuery">
+			<wsdl:input message="tns:NotifyResultQueryRequest" />
+			<wsdl:output message="tns:NotifyResultQueryResponse" />
+		</wsdl:operation>
+		
+		<wsdl:operation name="CallinMissedQuery">
+			<wsdl:input message="tns:CallinMissedQueryRequest" />
+			<wsdl:output message="tns:CallinMissedQueryResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="CalloutRecordQuery">
+			<wsdl:input message="tns:CalloutRecordQueryRequest" />
+			<wsdl:output message="tns:CalloutRecordQueryResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="CallplatRecordQuery">
+			<wsdl:input message="tns:CallplatRecordQueryRequest" />
+			<wsdl:output message="tns:CallplatRecordQueryResponse" />
+		</wsdl:operation>
+		
+	</wsdl:portType>
+
+	<wsdl:binding name="VoiceServiceSOAP" type="tns:VoiceService">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="Version">
+			<soap:operation soapAction="http://www.showclear.cn/ScService/Version" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SysConfigLoad">
+			<soap:operation soapAction="http://www.showclear.cn/ScService/SysConfigLoad" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SysConfigSet">
+			<soap:operation soapAction="http://www.showclear.cn/ScService/SysConfigSet" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="PushServReg">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/PushServReg" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="PushServQuery">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/PushServQuery" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Login">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/Login" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Logout">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/Logout" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Heartbeat">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/Heartbeat" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="WorkStatusSet">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/WorkStatusSet" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ConfigVideo">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/ConfigVideo" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Call">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/Call" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CallInTurns">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/CallInTurns" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CallHold">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/CallHold" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CallHangup">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/CallHangup" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CallTransfer">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/CallTransfer" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GroupCall">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/GroupCall" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GroupCallInturns">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/GroupCallInturns" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GroupCancel">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/GroupCancel" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CallRecord">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/CallRecord" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CallAnswer">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/CallAnswer" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="TelMonitor">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/TelMonitor" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CallOperate">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/CallOperate" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="TelStQuery">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/TelStQuery" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CallinQuery">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/CallinQuery" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CallinXDQuery">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/CallinXDQuery" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CallinTalkQuery">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/CallinTalkQuery" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		
+		<wsdl:operation name="MeetQuery">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/MeetQuery" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="MeetCreate">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/MeetCreate" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="MeetDelete">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/MeetDelete" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="MeetEnd">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/MeetEnd" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="MeetLock">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/MeetLock" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="MeetVoice">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/MeetVoice" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="MeetRecord">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/MeetRecord" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="MemberJoin">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/MemberJoin" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="MemberLeave">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/MemberLeave" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="MemberLevel">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/MemberLevel" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="NotifyRecordOP">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/NotifyRecordOP" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GroupNotify">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/GroupNotify" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GroupNotifyEnd">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/GroupNotifyEnd" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="NotifyResultQuery">
+			<soap:operation soapAction="http://www.showclear.cn/VoiceService/NotifyResultQuery" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		
+		<wsdl:operation name="CallinMissedQuery">
+			<soap:operation soapAction="http://www.showclear.cn/AppService/CallinMissedQuery" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CalloutRecordQuery">
+			<soap:operation soapAction="http://www.showclear.cn/AppService/CalloutRecordQuery" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CallplatRecordQuery">
+			<soap:operation soapAction="http://www.showclear.cn/AppService/CallplatRecordQuery" />
+			<wsdl:input><soap:body use="literal" /></wsdl:input>
+			<wsdl:output><soap:body use="literal" /></wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="VoiceService2">
+		<wsdl:port binding="tns:VoiceServiceSOAP" name="VoiceServiceSOAP">
+			<soap:address location="http://www.showclear.cn/" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
